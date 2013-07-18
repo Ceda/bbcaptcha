@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang="en-US">
+
+	<head>
+		
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="author" content="__MyCompanyName__">
+		
+		<title>untitled</title>
+		<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'></script>
+		<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+		<script type="text/javascript">
+		    jQuery(document).ready(function() {
+		        var recapExist = false;
+		      // Create our reCaptcha as needed
+		        jQuery('#product_tabs_what').click(function() {
+		            if(recapExist == false) {
+		                Recaptcha.create("<?php echo $publickey; ?>", "more_info_recaptcha_box");
+		                recapExist = "make_offer_recaptcha_box";
+		            } else if(recapExist == 'more_info_recaptcha_box') {
+		                Recaptcha.destroy(); // Don't really need this, but it's the proper way
+		                Recaptcha.create("<?php echo $publickey; ?>", "more_info_recaptcha_box");
+		                recapExist = "make_offer_recaptcha_box";
+		            }
+		        });
+		        jQuery('#product_tabs_wha').click(function() {
+		            if(recapExist == false) {
+		                Recaptcha.create("<?php echo $publickey; ?>", "make_offer_recaptcha_box");
+		                recapExist = "more_info_recaptcha_box";
+		            } else if(recapExist == 'make_offer_recaptcha_box') {
+		                Recaptcha.destroy(); // Don't really need this, but it's the proper way (I think :)
+		                Recaptcha.create("<?php echo $publickey; ?>", "make_offer_recaptcha_box");
+		                recapExist = "more_info_recaptcha_box";
+		            }
+		        });
+		    });
+		
+		</script>
+		
+	</head>
+	
+	<body>
+		<div class="tabs">
+		    <ul class="product-tabs">
+		        <li id="product_tabs_new" class="active"><a href="#">Detailed Description</a></li>
+		        <li id="product_tabs_what"><a href="#">Request Information</a></li>
+		        <li id="product_tabs_wha"><a href="#">Make Offer</a></li>
+		    </ul>
+		</div>
+
+		<div class="tab_content">
+		    <li class="wide">
+		        <div id="product_tabs_new_contents">
+		        </div>
+		    </li>
+
+		    <li class="wide">
+		        <label for="recaptcha">Captcha</label>
+		        <div id="more_info_recaptcha_box" class="input-box more_info_recaptcha_box"></div>
+		    </li>
+
+		    <li class="wide">
+		        <label for="recaptcha">Captcha</label>
+		        <div id="make_offer_recaptcha_box" class="input-box make_offer_recaptcha_box"></div>
+		    </li>
+		</div>
+	</body>
+
+
+</html>
