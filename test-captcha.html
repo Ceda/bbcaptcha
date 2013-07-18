@@ -14,7 +14,6 @@
 	
 	function createRecaptcha(element)
 	{
-		Recaptcha.destroy();
 		Recaptcha.create("6LdWCeQSAAAAAM2uFmpEIVo1ob2yVh7JrT1_PNTw",element,{
 			theme:theme,callback:Recaptcha.focus_response_field
 		});
@@ -69,13 +68,27 @@
 
 		$(document).ready(function() {
 
-			createRecaptcha('recaptcha_right'); //DisplayCaptchaForm
+			
+			$('form').click(function(e) {
+				if ($(this).hasClass('active')) 
+					return;
+				
+				$('form').removeClass('active');
+				$(this).addClass('active');
+				$('form').find('#captcha').remove();
+				
 
+				Recaptcha.destroy();
+				$(this).append("<div id='captcha'></div>");
+				createRecaptcha('captcha'); //DisplayCaptchaForm
+
+			});
+			
 			$(document).on('submit', '.valid-me', function(e) { //Sedn form with valid-me class
 
 				if (isValidContactForm(e,"input#emailformpu")) { // If is valid contact form
 
-					if (isCaptchaCorect("#recaptcha_result_right")) { // If captcha is corect
+					if (isCaptchaCorect("#recaptcha_result")) { // If captcha is corect
 						return true;
 					} else {
 						return false;	
@@ -90,16 +103,18 @@
 	</head>
 
 	<body>
-		<form method="post" action="adsdasdfsa"  name="xxxx" class="valid-me">
+		<form method="post" action="xxxx"  name="xxxx" class="valid-me">
 			<input type="text" class="clearMeFocus" name="email" id="emailformpu" title="Emailová adresa" value="Emailová adresa"><br>
 			<textarea name="message" class="clearMeFocus" title="Zpráva pro nás">Zpráva pro nás</textarea><br>
-			<div id="recaptcha_right"></div>
+			<input type="submit" value="Odeslat zprávu" >
+		</form>
+		
+		<form method="post" action="asdasd"  name="asdasd" class="valid-me">
+			<input type="text" class="clearMeFocus" name="email" id="emailformpu" title="Emailová adresa" value="Emailová adresa"><br>
+			<textarea name="message" class="clearMeFocus" title="Zpráva pro nás">Zpráva pro nás</textarea><br>
+			<div id="recaptcha_left"></div>
 			<input type="submit" value="Odeslat zprávu" >
 		</form>
 
-	
-		<div id="recaptcha_result_right"></div>
 	</body>
-
 	</html>
-
